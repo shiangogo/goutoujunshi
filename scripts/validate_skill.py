@@ -197,7 +197,7 @@ def validate_runtime_boundaries() -> None:
 def validate_markdown_links() -> None:
     link_pattern = re.compile(r"\]\(([^)]+)\)")
     for markdown in ROOT.rglob("*.md"):
-        if ".git" in markdown.parts or ".agents" in markdown.parts:
+        if ".git" in markdown.relative_to(ROOT).parts or ".agents" in markdown.relative_to(ROOT).parts:
             continue
         text = markdown.read_text(encoding="utf-8")
         stripped = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
@@ -215,7 +215,7 @@ def validate_markdown_links() -> None:
 
 def validate_placeholders() -> None:
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or ".agents" in path.parts:
+        if not path.is_file() or ".git" in path.relative_to(ROOT).parts or ".agents" in path.relative_to(ROOT).parts:
             continue
         if path.suffix.lower() not in {".md", ".yaml", ".yml", ".py"}:
             continue

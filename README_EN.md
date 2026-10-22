@@ -32,7 +32,7 @@
 
 Most relationship advice offers only two answers: “Go for it” or “Break up.” Goutoujunshi does not rush to a conclusion from a single message. It starts by acknowledging the user's emotions, then separates facts from assumptions and unknowns. It considers attraction alongside practical circumstances, reciprocity, risk, opportunity cost, and long-term options before turning the analysis into a concrete next step.
 
-This is more than a library of scripted replies. It can analyze chat screenshots, exported text, and the user's account of events while preserving evidence boundaries. It can turn analysis into a message ready to send, a specific invitation, a first-date plan, or a conversation exercise that can be reviewed afterward. It is an Antigravity CLI (AGY) Skill for the full relationship lifecycle, designed for diverse relationships and capable of explaining the reasoning behind its advice.
+This is more than a library of scripted replies. It can analyze chat screenshots, exported text, and the user's account of events while preserving evidence boundaries. It can turn analysis into a message ready to send, a specific invitation, a first-date plan, or a conversation exercise that can be reviewed afterward. It is a cross-platform AI relationship mentor Skill natively compatible with Antigravity CLI, Claude Code, and OpenAI Codex.
 
 ## What It Can Help With
 
@@ -83,19 +83,75 @@ The knowledge base draws on **135 references** spanning relationship science, ps
 
 <p align="center"><sub>Click the image to view it at full size.</sub></p>
 
-## Installation
+## Installation & Setup (Antigravity / Claude Code / Codex)
 
-Send the following installation prompt to your AI assistant:
+Goutoujunshi follows the standard Progressive Disclosure Skill specification and natively supports **Antigravity CLI (`agy`)**, **Claude CLI (Claude Code)**, and **OpenAI Codex**.
 
-```text
-Please download the public repository https://github.com/shengjidaguai-china/goutoujunshi and install it as a local Skill.
+### 1. Antigravity CLI (AGY) / Antigravity IDE
+
+- **Option A: Direct Prompt (Recommended)**:
+  ```text
+  Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Antigravity Skills directory (~/.gemini/config/skills/goutoujunshi).
+  ```
+- **Option B: Terminal Installation**:
+  ```bash
+  # Global Installation (Recommended, available in all projects)
+  mkdir -p ~/.gemini/config/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
+
+  # Or Project-Specific Installation
+  mkdir -p .agents/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git .agents/skills/goutoujunshi
+  ```
+- **Invocation**: Antigravity automatically detects and activates the skill based on conversation context, or you can invoke directly:
+  ```text
+  Use Goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
+  ```
+
+---
+
+### 2. Claude CLI (Claude Code)
+
+- **Terminal Installation**:
+  ```bash
+  # Global Installation (Recommended)
+  mkdir -p ~/.claude/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
+
+  # Or Project-Specific Installation
+  mkdir -p .claude/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git .claude/skills/goutoujunshi
+  ```
+- **Invocation**: Type the slash command `/goutoujunshi` or directly prompt Claude to act as Goutoujunshi:
+  ```text
+  Please act as Goutoujunshi to help analyze this chat transcript and provide reply recommendations.
+  ```
+
+---
+
+### 3. OpenAI Codex
+
+- **Terminal Installation**:
+  ```bash
+  mkdir -p ~/.codex/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
+  ```
+- **Invocation**: Use the default prompt trigger:
+  ```text
+  Use $goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
+  ```
+
+---
+
+### Validate Skill Integrity (All Platforms)
+
+```bash
+python3 scripts/validate_skill.py
 ```
 
-After installation, you can enter:
+---
 
-```text
-Use Goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
-```
+### First-Time Onboarding Questionnaire
 
 On first use, it will ask for:
 
@@ -139,14 +195,17 @@ Long-term memory and ChatLab are used only when the user consents or supplies th
 
 ```text
 goutoujunshi/
-├── SKILL.md                    # Core behavior and workflow (AGY Skill specification)
+├── SKILL.md                    # Core behavior & progressive-disclosure workflow
+├── CLAUDE.md                   # Claude Code project guidelines & command configuration
+├── agents/
+│   └── openai.yaml            # OpenAI Codex interface metadata & default prompt
 ├── references/
-│   ├── knowledge/             # Relationship science and interdisciplinary knowledge
-│   └── practical/             # Communication, tool integration, and memory rules
+│   ├── knowledge/             # Relationship science & Taiwan legal reference docs (20 files)
+│   └── practical/             # Communication playbooks, memory & tool rules (23 files)
 ├── documentation/             # Architecture, workflows, and safety boundaries
 └── scripts/
-    ├── validate_skill.py      # Project integrity checks
-    └── memory_store.py        # Consent gate, bounded memory, revocation, and deletion
+    ├── validate_skill.py      # Cross-platform Skill integrity, link & token checks
+    └── memory_store.py        # Consent gate, bounded SQLite memory, revoke & delete
 ```
 
 ## Design Principles

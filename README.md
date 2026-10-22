@@ -32,7 +32,7 @@
 
 很多戀愛建議只有兩個答案：“勇敢去追”或“趕緊分手”。狗頭軍師不會只憑一句話替你下結論：它先接住情緒，再把事實、推測和未知拆開；既看心動，也看現實條件、互惠、風險、機會成本和長期選擇權，最後給出可以真正執行的下一步。
 
-它不只是一個話術庫。它能讀取聊天截圖、匯出文本和使用者轉述，區分素材來源與事實邊界；也能把分析落到一句可發送的話、一次具體邀約、第一次見面安排或一段可復盤的對話演練。它是一套覆蓋戀愛全週期、面向多元關係、能夠解釋建議理由的 Antigravity CLI (AGY) Skill。
+它不只是一個話術庫。它能讀取聊天截圖、匯出文本和使用者轉述，區分素材來源與事實邊界；也能把分析落到一句可發送的話、一次具體邀約、第一次見面安排或一段可復盤的對話演練。它是一套覆蓋戀愛全週期、面向多元關係、能夠解釋建議理由的跨平台 AI 軍師 Skill（原生支援 Antigravity CLI、Claude Code 與 OpenAI Codex）。
 
 ## 它能幫你解決什麼
 
@@ -83,45 +83,70 @@
 
 <p align="center"><sub>點擊圖片查看完整尺寸</sub></p>
 
-## 在 Antigravity CLI (AGY) 安裝與使用
+## 安裝與使用指南（支援 Antigravity / Claude Code / Codex）
 
-本專案遵循 **Antigravity CLI (`agy`) / Antigravity IDE** 的 Skill 規範（Progressive Disclosure 漸進式載入），支援全域安裝與工作區專案安裝。
+本專案遵循 Progressive Disclosure 漸進式載入規範，原生相容 **Antigravity CLI (`agy`)**、**Claude CLI (Claude Code)** 與 **OpenAI Codex**，支援全域安裝與專案工作區安裝。
 
-### 方式一：直接請 Antigravity 幫你安裝（推薦）
+### 1. Antigravity CLI (AGY) / Antigravity IDE
 
-在 Antigravity 對話框中直接輸入以下口令：
+- **方式 A：在 Antigravity 對話框中直接安裝（推薦）**：
+  ```text
+  請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Antigravity Skills 目錄（~/.gemini/config/skills/goutoujunshi）。
+  ```
+- **方式 B：終端機安裝**：
+  ```bash
+  # 全域安裝（推薦，本機所有工作區皆可呼叫）
+  mkdir -p ~/.gemini/config/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
 
-```text
-請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Antigravity Skills 目錄（~/.gemini/config/skills/goutoujunshi）。
-```
-
-### 方式二：透過終端機手動安裝
-
-1. **全域安裝（推薦，本機所有專案與工作區皆可呼叫）**：
-   ```bash
-   mkdir -p ~/.gemini/config/skills
-   git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
-   ```
-
-2. **工作區安裝（僅在特定專案內生效）**：
-   ```bash
-   mkdir -p .agents/skills
-   git clone https://github.com/shiangogo/goutoujunshi.git .agents/skills/goutoujunshi
-   ```
-
-3. **驗證 Skill 完整性（選用）**：
-   ```bash
-   python3 ~/.gemini/config/skills/goutoujunshi/scripts/validate_skill.py
-   ```
+  # 或專案工作區安裝（僅特定專案生效）
+  mkdir -p .agents/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git .agents/skills/goutoujunshi
+  ```
+- **啟動方式**：Antigravity 會依對話語境自動辨識載入，亦可直接開口呼叫：
+  ```text
+  請使用狗頭軍師幫我梳理情緒、分析當前關係，並給出下一步建議。
+  ```
 
 ---
 
-### 如何啟動與對話
+### 2. Claude CLI (Claude Code)
 
-安裝完成後，當你在 Antigravity 中詢問感情、曖昧、LINE/IG 聊天紀錄分析或關係決策時，Antigravity 會自動根據語境載入 `goutoujunshi` Skill；你也可以直接開口呼叫它：
+- **終端機安裝**：
+  ```bash
+  # 全域安裝（推薦）
+  mkdir -p ~/.claude/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
 
-```text
-請使用狗頭軍師幫我梳理情緒、分析當前關係，並給出下一步建議。
+  # 或專案工作區安裝
+  mkdir -p .claude/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git .claude/skills/goutoujunshi
+  ```
+- **啟動方式**：可直接在 Claude Code 輸入斜線指令 `/goutoujunshi`，或直接在對話中呼叫：
+  ```text
+  請扮演狗頭軍師，幫我梳理情緒、分析當前關係，並給出下一步建議。
+  ```
+
+---
+
+### 3. OpenAI Codex
+
+- **終端機安裝**：
+  ```bash
+  mkdir -p ~/.codex/skills
+  git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
+  ```
+- **啟動方式**：在對話中輸入包含預設口令的提示詞：
+  ```text
+  使用 $goutoujunshi 幫我梳理情緒、分析當前關係，並給出下一步建議。
+  ```
+
+---
+
+### 驗證 Skill 完整性（所有平台通用）
+
+```bash
+python3 scripts/validate_skill.py
 ```
 
 首次使用時，它會引導你建立精簡關係檔案：
@@ -166,13 +191,16 @@ ChatLab 是可選依賴。安裝並準備好使用者自己取得的聊天匯出
 
 ```text
 goutoujunshi/
-├── SKILL.md                    # 核心行為與工作流（Antigravity CLI Skill 規範）
+├── SKILL.md                    # 通用核心行為與工作流（Progressive Disclosure 規範）
+├── CLAUDE.md                   # Claude Code 專案指南與指令設定
+├── agents/
+│   └── openai.yaml            # OpenAI Codex 介面詮釋資料與預設提示詞
 ├── references/
 │   ├── knowledge/             # 關係科學、臺灣法規與跨學科知識文件（20 份）
 │   └── practical/             # 溝通實戰、工具適配與記憶規則（23 份）
 ├── documentation/             # 架構、流程與安全邊界說明
 └── scripts/
-    ├── validate_skill.py      # AGY Skill 結構、連結與 Token 預算檢查腳本
+    ├── validate_skill.py      # 跨平台 Skill 結構、連結與 Token 預算檢查腳本
     └── memory_store.py        # 同意門禁、限量本機記憶、撤銷與刪除腳本
 ```
 
@@ -191,6 +219,7 @@ goutoujunshi/
 
 | 日期 | 類型 | 更新 | 使用者價值 |
 | --- | --- | --- | --- |
+| 2026-10-22 | 跨平台三棲相容 | 建立跨 Antigravity CLI、Claude Code 與 OpenAI Codex 的三棲架構：加回 `agents/openai.yaml`、建立 `CLAUDE.md` 與斜線指令，升級驗證器支援多平台，並提供三平台安裝指南。 | 支援三大主流 AI CLI 代理開箱即用，無須修改程式碼即可在不同工具間無縫切換。 |
 | 2026-10-22 | 臺灣在地化與 AGY 適配 | 全專案（含 43 份知識與實戰文檔）轉為臺灣正體中文與在地語彙；全面改寫第 17 章及相關章節為中華民國（臺灣）現行法規（家暴防治法、跟騷法、刑法妨害性隱私、民法親屬編、同婚專法與 110/119/113/165/1925 專線）；改造為 Antigravity CLI (AGY) Skill 架構。 | 支援 Antigravity CLI / IDE 即裝即用，並提供符合臺灣法律與真實求助管道的安全邊界與戀愛諮詢體驗。 |
 | 2026-08-03 | 記憶與聊天分析 | 保留老版建檔、情緒承接、關係判斷、主動推進和即時話術能力；增加首次同意後自動更新且可撤銷的本地精簡記憶，以及聊天截圖、匯出紀錄和 ChatLab 已有資料分析。 | 維持原有軍師體驗，同時支援跨任務復用有限檔案、鎖定聊天說話人並分析關係趨勢；不保存完整聊天，也不聲稱能直接匯出通訊軟體資料。 |
 | 2026-07-23 | 架構 | 收縮 `SKILL.md` 為輕量行為與路由內核；新增經典社交體系機制／風險與倫理能力轉譯，覆蓋 Blueprint 內在狀態、自然流、冷讀和 Mystery 結構化互動；驗證器改為必需檔案、上下文預算和執行期邊界，增加白名單安裝模式並補充回歸場景。 | 只按當前問題載入 1–3 份資料，在保留實戰顆粒度的同時讓日常上下文成本保守估算降低 48.3%；安裝副本不攜帶專案資料也能自檢，並阻止讀心、操控和階段升級誤用。 |

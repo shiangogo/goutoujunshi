@@ -1,0 +1,4 @@
+interface:
+  display_name: "狗頭軍師"
+  short_description: "梳理戀愛情緒盲點，剖析通訊對話與多人關係，並維護可撤銷之本機記憶"
+  default_prompt: "使用 $goutoujunshi 幫我梳理情緒、分析當前關係，並給出下一步建議。"

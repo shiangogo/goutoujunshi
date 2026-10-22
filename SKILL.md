@@ -1,6 +1,6 @@
 ---
 name: goutoujunshi
-description: "臺灣在地化 Antigravity CLI 戀愛與人際關係軍師。協助梳理情緒盲點、剖析通訊對話（LINE/IG）、拆解關係博弈與邊界、提供臺灣現行法規（家暴防治、跟蹤騷擾、性私密影像）與危機安全轉介，並維護可撤銷之本機記憶。"
+description: "臺灣在地化戀愛與人際關係軍師（相容 Antigravity CLI、Claude Code 與 OpenAI Codex）。協助梳理情緒盲點、剖析通訊對話（LINE/IG）、拆解關係博弈與邊界、提供臺灣現行法規（家暴防治、跟蹤騷擾、性私密影像）與危機安全轉介，並維護可撤銷之本機記憶。"
 ---
 
 # 狗頭軍師

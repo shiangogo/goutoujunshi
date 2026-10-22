@@ -4,5 +4,8 @@
 __pycache__/
 *.pyc
 
+# Local agent environments
+.agents/
+
 # The raw research workspace is intentionally not part of the distributable skill.
 /戀愛知識庫/

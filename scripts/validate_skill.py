@@ -108,13 +108,18 @@ def validate_skill_budget() -> None:
 
 def validate_inventory(runtime_only: bool) -> None:
     require("scripts/memory_store.py")
+    require("agents/openai.yaml")
     if not runtime_only:
         require("README.md")
         require("LICENSE")
+        require("CLAUDE.md")
     for filename in REQUIRED_KNOWLEDGE:
         require(f"references/knowledge/{filename}")
     for filename in REQUIRED_PRACTICAL:
         require(f"references/practical/{filename}")
+    agent = ROOT / "agents/openai.yaml"
+    if agent.is_file() and "$goutoujunshi" not in agent.read_text(encoding="utf-8"):
+        ERRORS.append("agents/openai.yaml default prompt must mention $goutoujunshi")
 
 
 def validate_routes_and_regressions(runtime_only: bool) -> None:
@@ -173,6 +178,7 @@ def validate_runtime_boundaries() -> None:
 
     runtime_roots = (
         ROOT / "SKILL.md",
+        ROOT / "agents",
         ROOT / "references",
         ROOT / "scripts",
         ROOT / "assets",
@@ -197,7 +203,8 @@ def validate_runtime_boundaries() -> None:
 def validate_markdown_links() -> None:
     link_pattern = re.compile(r"\]\(([^)]+)\)")
     for markdown in ROOT.rglob("*.md"):
-        if ".git" in markdown.relative_to(ROOT).parts or ".agents" in markdown.relative_to(ROOT).parts:
+        relative_parts = markdown.relative_to(ROOT).parts
+        if any(part in relative_parts for part in (".git", ".agents", ".claude")):
             continue
         text = markdown.read_text(encoding="utf-8")
         stripped = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
@@ -215,7 +222,10 @@ def validate_markdown_links() -> None:
 
 def validate_placeholders() -> None:
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.relative_to(ROOT).parts or ".agents" in path.relative_to(ROOT).parts:
+        relative_parts = path.relative_to(ROOT).parts
+        if any(part in relative_parts for part in (".git", ".agents", ".claude")):
+            continue
+        if not path.is_file():
             continue
         if path.suffix.lower() not in {".md", ".yaml", ".yml", ".py"}:
             continue

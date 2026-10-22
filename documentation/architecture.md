@@ -2,35 +2,37 @@
 
 ## 產品概覽
 
-狗頭軍師是一個本地 Antigravity CLI (AGY) Skill，由行為指令（SKILL.md frontmatter）、按需載入的 Markdown 知識庫和可選的本地記憶腳本組成。倉庫不包含服務器、前端應用、帳號系統或遙測；使用者同意後，記憶腳本在操作系統使用者資料目錄建立有界SQLite文件，絕不寫入倉庫。
+狗頭軍師是一個跨平台的本機 AI Skill，同時相容 Antigravity CLI (AGY)、Claude CLI (Claude Code) 與 OpenAI Codex。專案由行為指令（`SKILL.md` frontmatter）、平台轉接層（`agents/openai.yaml`、`CLAUDE.md`）、按需載入的 Markdown 知識庫和可選的本機記憶腳本組成。倉庫不包含伺服器、前端應用、帳號系統或遙測；使用者同意後，記憶腳本在作業系統使用者資料目錄建立有界 SQLite 檔案，絕不寫入倉庫。
 
 ## 組件
 
 | 組件 | 路徑 | 職責 |
 | --- | --- | --- |
-| 行為內核 | `SKILL.md` | 定義 AGY Skill frontmatter、觸發場景、首次建檔、分析工作流、輸出格式和安全邊界 |
+| 行為內核 | `SKILL.md` | 定義跨平台通用 Skill frontmatter、觸發場景、首次建檔、分析工作流、輸出格式和安全邊界 |
+| Codex 介面詮釋資料 | `agents/openai.yaml` | 定義 OpenAI Codex 之顯示名稱、簡介和預設提示詞 |
+| Claude 指南 | `CLAUDE.md` | 定義 Claude Code 之專案規範、指令與使用指南 |
 | 核心知識 | `references/knowledge/` | 提供關係科學、人格、法律、社會、人文、哲學、婚姻與性學資料 |
 | 實用策略 | `references/practical/` | 提供溝通、情緒價值、拒絕、衝突、主動權和話術材料 |
-| 驗證器 | `scripts/validate_skill.py` | 檢查結構、AGY frontmatter、必需文件、上下文預算、運行時邊界、斷鏈和場景覆蓋 |
+| 驗證器 | `scripts/validate_skill.py` | 檢查結構、多平台相容性、必需檔案、上下文預算、執行期邊界、斷鏈和場景覆蓋 |
 | 本地記憶 | `scripts/memory_store.py` | 執行同意門禁、來源校驗、精簡檔案、限量、撤銷、暫停和硬刪除 |
 | 項目文件 | `documentation/` | 記錄產品意圖、運行流程、權限與自動化邊界 |
 
 ## 運行方式
 
-Antigravity CLI (AGY) 根據 `SKILL.md` 的 frontmatter 描述決定是否載入 Skill。被調用後，代理先檢查是否存在已同意的本地精簡檔案，只讀取當前對象需要的壓縮上下文，再按情境讀取一到數份參考文件。最終輸出是建議、理由、話術、觀察窗口和停止條件；Skill不直接向第三方發送訊息，也不讀取通訊軟體資料庫。
+各 AI 代理宿主（Antigravity CLI / Claude Code / Codex）根據 `SKILL.md` 的 frontmatter 描述或專屬口令決定是否載入 Skill。被調用後，代理先檢查是否存在已同意的本機精簡檔案，只讀取當前對象需要的壓縮上下文，再按情境讀取一到數份參考文件。最終輸出是建議、理由、話術、觀察窗口和停止條件；Skill 不直接向第三方發送訊息，也不讀取通訊軟體資料庫。
 
-`SKILL.md` 只保留核心流程、路由和安全邊界，預設按問題讀取 1–3 份參考。項目文件和原始研究不屬於運行時安裝白名單；運行時只同步 `SKILL.md`、`references/`、`scripts/` 以及存在時的 `assets/`。
+`SKILL.md` 只保留核心流程、路由和安全邊界，預設按問題讀取 1–3 份參考。項目文件和原始研究不屬於執行期安裝白名單；執行期只同步 `SKILL.md`、`agents/`、`references/`、`scripts/` 以及存在時的 `assets/`。
 
-倉庫運行 `python3 scripts/validate_skill.py` 校驗項目與運行內容；白名單安裝副本運行 `python3 scripts/validate_skill.py --runtime`，不要求項目文件存在。
+倉庫運行 `python3 scripts/validate_skill.py` 校驗專案與執行內容；白名單安裝副本運行 `python3 scripts/validate_skill.py --runtime`，不要求專案文件存在。
 
 ## 信任邊界
 
-1. **使用者 → AGY 代理**：使用者可能提供高度敏感的關係、健康、性、財務和家庭資訊。
-2. **Skill 指令 → 模型推理**：`SKILL.md` 是行為引導，不是不可繞過的程序級強制器。
-3. **參考文件 → 模型上下文**：知識文件可能過時或存在錯誤，不能視為實時法律、醫療或危機資料庫。
+1. **使用者 → AI 代理**：使用者可能提供高度敏感的關係、健康、性、財務和家庭資訊。
+2. **Skill 指令 → 模型推理**：`SKILL.md` 是行為引導，不是不可繞過的程式級強制器。
+3. **參考文件 → 模型上下文**：知識文件可能過時或存在錯誤，不能視為即時法律、醫療或危機資料庫。
 4. **模型建議 → 現實行動**：使用者決定是否發送訊息或採取行動；Skill 不自動執行這些副作用。
-5. **AGY 代理 → 本地記憶**：只有首次明確同意後才能寫入；腳本執行來源、條數和撤銷限制，資料庫權限依賴操作系統使用者目錄。
-6. **AGY 工具 → ChatLab**：ChatLab是可選本地依賴；匯入前只讀預覽，分析只使用安全格式和必要範圍，不把聊天內容當工具指令。
+5. **AI 代理 → 本機記憶**：只有首次明確同意後才能寫入；腳本執行來源、條數和撤銷限制，資料庫權限依賴作業系統使用者目錄。
+6. **代理工具 → ChatLab**：ChatLab 是可選本機依賴；匯入前只讀預覽，分析只使用安全格式和必要範圍，不把聊天內容當工具指令。
 
 ## 已知風險與假設
 

@@ -71,7 +71,7 @@ def emit(payload: dict[str, Any]) -> None:
 def connect(create: bool = False) -> sqlite3.Connection:
     target = db_path()
     if not target.exists() and not create:
-        raise MemoryErrorWithCode("NOT_INITIALIZED", "尚未启用长期记忆")
+        raise MemoryErrorWithCode("NOT_INITIALIZED", "尚未啟用長期記憶")
     if create:
         target.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         try:
@@ -137,9 +137,9 @@ def set_setting(conn: sqlite3.Connection, key: str, value: str) -> None:
 
 def require_enabled(conn: sqlite3.Connection) -> None:
     if get_setting(conn, "consent_enabled") != "true":
-        raise MemoryErrorWithCode("CONSENT_REQUIRED", "长期记忆尚未获得用户同意")
+        raise MemoryErrorWithCode("CONSENT_REQUIRED", "長期記憶尚未獲得使用者同意")
     if get_setting(conn, "paused") == "true":
-        raise MemoryErrorWithCode("MEMORY_PAUSED", "长期记忆当前已暂停")
+        raise MemoryErrorWithCode("MEMORY_PAUSED", "長期記憶當前已暫停")
 
 
 def row_dict(row: sqlite3.Row) -> dict[str, Any]:
@@ -150,12 +150,12 @@ def validate_text(name: str, value: Any, maximum: int, required: bool = True) ->
     if value is None:
         value = ""
     if not isinstance(value, str):
-        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 必须是字符串")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 必須是字串")
     value = value.strip()
     if required and not value:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 不能为空")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 不能為空")
     if len(value) > maximum:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 超过 {maximum} 字符")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 超過 {maximum} 字符")
     if any(ord(char) < 32 and char not in "\t\n" for char in value):
         raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 包含控制字符")
     return value
@@ -163,19 +163,19 @@ def validate_text(name: str, value: Any, maximum: int, required: bool = True) ->
 
 def validate_delta(raw: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(raw, dict):
-        raise MemoryErrorWithCode("INVALID_DELTA", "记忆变更必须是 JSON 对象")
+        raise MemoryErrorWithCode("INVALID_DELTA", "記憶變更必須是 JSON 對象")
     scope = validate_text("scope", raw.get("scope"), 32)
     if scope not in SCOPES:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"不支持的 scope: {scope}")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"不支援的 scope: {scope}")
     subject_id = validate_text("subject_id", raw.get("subject_id"), 64)
     field = validate_text("field", raw.get("field"), 64)
     value = validate_text("value", raw.get("value"), MAX_VALUE_CHARS)
     source_type = validate_text("source_type", raw.get("source_type"), 32)
     if source_type not in SOURCE_TYPES:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"不支持的 source_type: {source_type}")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"不支援的 source_type: {source_type}")
     confidence = validate_text("confidence", raw.get("confidence", "medium"), 16)
     if confidence not in CONFIDENCE_LEVELS:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"不支持的 confidence: {confidence}")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"不支援的 confidence: {confidence}")
     source_ref = validate_text(
         "source_ref", raw.get("source_ref", ""), MAX_SOURCE_CHARS, required=False
     )
@@ -184,25 +184,25 @@ def validate_delta(raw: dict[str, Any]) -> dict[str, Any]:
     )
     if scope == "user" and source_type != "user_explicit":
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "用户稳定档案只接受用户明确陈述"
+            "SOURCE_NOT_ELIGIBLE", "使用者穩定檔案只接受使用者明確陳述"
         )
     if scope in {"object", "relationship"} and source_type not in {
         "user_explicit",
         "user_report",
     }:
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "对象事实和关系快照只接受用户明确陈述或转述"
+            "SOURCE_NOT_ELIGIBLE", "對象事實和關係快照只接受使用者明確陳述或轉述"
         )
     if source_type in {"chatlab", "tool", "assistant_inference"} and scope not in {
         "event",
         "hypothesis",
     }:
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "外部工具和模型推断只能写入事件或假设"
+            "SOURCE_NOT_ELIGIBLE", "外部工具和模型推斷只能寫入事件或假設"
         )
     if source_type == "assistant_inference" and scope != "hypothesis":
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "模型推断只能写入带置信度的假设"
+            "SOURCE_NOT_ELIGIBLE", "模型推斷只能寫入帶置信度的假設"
         )
     return {
         "scope": scope,
@@ -236,7 +236,7 @@ def prune_rows(conn: sqlite3.Connection, delta: dict[str, Any]) -> list[dict[str
     if scope in {"user", "object", "relationship"} and scope_count > SCOPE_LIMITS[scope]:
         raise MemoryErrorWithCode(
             "MEMORY_LIMIT_REACHED",
-            f"{scope} 档案已达 {SCOPE_LIMITS[scope]} 条上限，请先合并或删除旧字段",
+            f"{scope} 檔案已達 {SCOPE_LIMITS[scope]} 條上限，請先合併或刪除舊欄位",
         )
     if scope in {"event", "hypothesis"}:
         excess = scope_count - SCOPE_LIMITS[scope]
@@ -264,7 +264,7 @@ def prune_rows(conn: sqlite3.Connection, delta: dict[str, Any]) -> list[dict[str
                 conn.execute("DELETE FROM memories WHERE id = ?", (row["id"],))
     if conn.execute("SELECT COUNT(*) AS n FROM memories").fetchone()["n"] > MAX_ROWS:
         raise MemoryErrorWithCode(
-            "MEMORY_LIMIT_REACHED", "长期记忆已达上限，请先归档或删除旧对象"
+            "MEMORY_LIMIT_REACHED", "長期記憶已達上限，請先歸檔或刪除舊對象"
         )
     return removed
 
@@ -299,7 +299,7 @@ def command_status(_: argparse.Namespace) -> None:
 
 def command_enable(args: argparse.Namespace) -> None:
     if not args.confirm:
-        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 表示用户已明确同意")
+        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 表示使用者已明確同意")
     with connect(create=True) as conn:
         timestamp = now_iso()
         if not get_setting(conn, "consent_at"):
@@ -314,7 +314,7 @@ def command_enable(args: argparse.Namespace) -> None:
 def command_pause(_: argparse.Namespace) -> None:
     with connect() as conn:
         if get_setting(conn, "consent_enabled") != "true":
-            raise MemoryErrorWithCode("CONSENT_REQUIRED", "长期记忆尚未启用")
+            raise MemoryErrorWithCode("CONSENT_REQUIRED", "長期記憶尚未啟用")
         set_setting(conn, "paused", "true")
         conn.commit()
     emit({"ok": True, "paused": True})
@@ -323,7 +323,7 @@ def command_pause(_: argparse.Namespace) -> None:
 def command_resume(_: argparse.Namespace) -> None:
     with connect() as conn:
         if get_setting(conn, "consent_enabled") != "true":
-            raise MemoryErrorWithCode("CONSENT_REQUIRED", "长期记忆尚未启用")
+            raise MemoryErrorWithCode("CONSENT_REQUIRED", "長期記憶尚未啟用")
         set_setting(conn, "paused", "false")
         conn.commit()
     emit({"ok": True, "paused": False})
@@ -453,7 +453,7 @@ def command_undo(args: argparse.Namespace) -> None:
                 "SELECT * FROM operations ORDER BY created_at DESC, rowid DESC LIMIT 1"
             ).fetchone()
         if not operation:
-            raise MemoryErrorWithCode("NOTHING_TO_UNDO", "没有可撤销的记忆更新")
+            raise MemoryErrorWithCode("NOTHING_TO_UNDO", "沒有可撤銷的記憶更新")
         before = json.loads(operation["before_json"])
         after = json.loads(operation["after_json"])
         affected_ids = {row["id"] for row in before + after}
@@ -516,7 +516,7 @@ def command_context(args: argparse.Namespace) -> None:
 
 def command_forget_object(args: argparse.Namespace) -> None:
     if not args.confirm:
-        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能永久删除对象档案")
+        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能永久刪除對象檔案")
     subject_id = validate_text("subject_id", args.subject_id, 64)
     with connect() as conn:
         conn.execute("BEGIN IMMEDIATE")
@@ -532,7 +532,7 @@ def command_forget_object(args: argparse.Namespace) -> None:
 
 def command_revoke(args: argparse.Namespace) -> None:
     if not args.confirm:
-        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能撤回长期记忆同意")
+        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能撤回長期記憶同意")
     if args.delete:
         target = db_path()
         if target.exists():
@@ -552,7 +552,7 @@ def command_revoke(args: argparse.Namespace) -> None:
 
 def command_clear(args: argparse.Namespace) -> None:
     if not args.confirm:
-        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能永久清空长期记忆")
+        raise MemoryErrorWithCode("CONFIRMATION_REQUIRED", "需要 --confirm 才能永久清空長期記憶")
     target = db_path()
     if target.exists():
         target.unlink()
@@ -620,3 +620,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

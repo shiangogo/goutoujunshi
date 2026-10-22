@@ -73,7 +73,7 @@ The knowledge base distinguishes stronger research evidence from theoretical fra
 
 ## References
 
-The knowledge base draws on **135 references** spanning relationship science, psychology and communication research, PUA and cold-reading risks, Chinese law and official safety guidance, books, theories, and public course materials. Sources are classified by evidence strength and usage boundaries; see the [core reading and paper index](./references/knowledge/19-核心书单与论文索引.md) for details.
+The knowledge base draws on **135 references** spanning relationship science, psychology and communication research, PUA and cold-reading risks, Chinese law and official safety guidance, books, theories, and public course materials. Sources are classified by evidence strength and usage boundaries; see the [core reading and paper index](./references/knowledge/19-核心書單與論文索引.md) for details.
 
 <p align="center">
   <a href="./assets/reference-library-135.png">

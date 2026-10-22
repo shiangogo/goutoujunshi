@@ -17,24 +17,24 @@ SKILL_MAX_CHARACTERS = 5_000
 SKILL_MAX_APPROX_TOKENS = 4_500
 
 REQUIRED_KNOWLEDGE = (
-    "01-证据分级与内容边界.md",
-    "05-PUA操控与伦理替代.md",
-    "08-同意边界性与亲密.md",
-    "09-在线约会与数字关系.md",
-    "17-中国法律安全与危机转介.md",
-    "20-经典社交体系的机制、证据与风险边界.md",
+    "01-證據分級與內容邊界.md",
+    "05-PUA操控與倫理替代.md",
+    "08-同意邊界性與親密.md",
+    "09-線上約會與數位關係.md",
+    "17-臺灣法律安全與危機轉介.md",
+    "20-經典社交體系的機制、證據與風險邊界.md",
 )
 
 REQUIRED_PRACTICAL = (
-    "00-导读与使用分级.md",
-    "关系投入失衡：互惠判断、降级投入与退出决策.md",
-    "场景感、松弛感与社交校准：从接话到关系推进.md",
-    "实战话术编排器：从一句回复到后续分支.md",
-    "主动表达、第一次见面与自然接触.md",
-    "自然流、内在状态与结构化互动：伦理能力转译.md",
-    "ChatLab聊天记录分析适配.md",
-    "长期记忆与关系档案.md",
-    "公开表达案例的伦理转译.md",
+    "00-導讀與使用分級.md",
+    "關係投入失衡：互惠判斷、降級投入與退出決策.md",
+    "場景感、鬆弛感與社交校準：從接話到關係推進.md",
+    "實戰話術編排器：從一句回覆到後續分支.md",
+    "主動表達、第一次見面與自然接觸.md",
+    "自然流、內在狀態與結構化互動：倫理能力轉譯.md",
+    "ChatLab聊天紀錄分析適配.md",
+    "長期記憶與關係檔案.md",
+    "公開表達案例的倫理轉譯.md",
 )
 
 def require(path: str) -> Path:
@@ -120,12 +120,12 @@ def validate_routes_and_regressions(runtime_only: bool) -> None:
     if skill.is_file():
         content = skill.read_text(encoding="utf-8")
         required_routes = (
-            "references/knowledge/20-经典社交体系的机制、证据与风险边界.md",
-            "references/practical/自然流、内在状态与结构化互动：伦理能力转译.md",
-            "默认只读取当前问题直接需要的 1–3 份参考",
-            "references/practical/ChatLab聊天记录分析适配.md",
-            "references/practical/长期记忆与关系档案.md",
-            "references/knowledge/04-MBTI人格与匹配.md",
+            "references/knowledge/20-經典社交體系的機制、證據與風險邊界.md",
+            "references/practical/自然流、內在狀態與結構化互動：倫理能力轉譯.md",
+            "預設只讀取當前問題直接需要的 1–3 份參考",
+            "references/practical/ChatLab聊天紀錄分析適配.md",
+            "references/practical/長期記憶與關係檔案.md",
+            "references/knowledge/04-MBTI人格與匹配.md",
         )
         for route in required_routes:
             if route not in content:
@@ -133,23 +133,23 @@ def validate_routes_and_regressions(runtime_only: bool) -> None:
 
         regression_markers = (
             "## 每次分析",
-            "**情绪落地**",
-            "**事实拆分**",
-            "**利益判断**",
-            "**明确建议**",
-            "**行动收束**",
-            "观察窗口或停止条件",
-            "当前对话没有档案时，先发紧凑问卷",
-            "你：MBTI / 主观综合评分0–100 / 主要优势和短板",
-            "对象A：代号 / MBTI / 主观综合评分0–100 / 当前关系",
-            "经过：认识方式、发展多久、最近三件关键事件、联系和双方投入",
-            "明确表示不想发展、要求不要联系或反复表示不欢迎时停止推进",
-            "第一屏先给一条可复制成品",
-            "发送时机、主要代价和积极／含糊／不回应的后续",
-            "锁定“用户／对象”的说话人映射",
-            "不声称能直接读取、解密或导出",
-            "首次明确同意后才启用",
-            "不从姓名、MBTI、旧案例或模型推测补事实",
+            "**情緒落地**",
+            "**事實拆分**",
+            "**利益判斷**",
+            "**明確建議**",
+            "**行動收束**",
+            "觀察窗口或停止條件",
+            "當前對話沒有檔案時，先發緊湊問卷",
+            "你：MBTI / 主觀綜合評分0–100 / 主要優勢和短板",
+            "對象A：代號 / MBTI / 主觀綜合評分0–100 / 當前關係",
+            "經過：認識方式、發展多久、最近三件關鍵事件、聯繫和雙方投入",
+            "明確表示不想發展、要求不要聯繫或反復表示不歡迎時停止推進",
+            "第一屏先給一條可複製成品",
+            "發送時機、主要代價和積極／含糊／不回應的後續",
+            "鎖定「使用者／對象」的說話人映射",
+            "不聲稱能直接讀取、解密或匯出",
+            "首次明確同意後才啟用",
+            "不從姓名、MBTI、舊案例或模型推測補事實",
         )
         for marker in regression_markers:
             if marker not in content:
@@ -158,7 +158,7 @@ def validate_routes_and_regressions(runtime_only: bool) -> None:
 def validate_runtime_boundaries() -> None:
     if (ROOT / ".git").exists():
         tracked_research = subprocess.run(
-            ["git", "ls-files", "--", "research", "恋爱知识库"],
+            ["git", "ls-files", "--", "research", "戀愛知識庫"],
             cwd=ROOT,
             check=False,
             capture_output=True,
@@ -196,6 +196,8 @@ def validate_runtime_boundaries() -> None:
 def validate_markdown_links() -> None:
     link_pattern = re.compile(r"\]\(([^)]+)\)")
     for markdown in ROOT.rglob("*.md"):
+        if ".agents" in markdown.parts:
+            continue
         text = markdown.read_text(encoding="utf-8")
         for raw_target in link_pattern.findall(text):
             target = raw_target.strip().split("#", 1)[0]
@@ -210,7 +212,7 @@ def validate_markdown_links() -> None:
 
 def validate_placeholders() -> None:
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts:
+        if not path.is_file() or ".git" in path.parts or ".agents" in path.parts:
             continue
         if path.suffix.lower() not in {".md", ".yaml", ".yml", ".py"}:
             continue
@@ -243,3 +245,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
+

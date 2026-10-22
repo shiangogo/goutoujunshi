@@ -85,78 +85,42 @@
 
 ## 安裝與使用指南（支援 Antigravity / Claude Code / Codex）
 
-本專案遵循 Progressive Disclosure 漸進式載入規範，原生相容 **Antigravity CLI (`agy`)**、**Claude CLI (Claude Code)** 與 **OpenAI Codex**，支援對話口令一鍵安裝（推薦）與終端機安裝。
+本專案遵循 Progressive Disclosure 漸進式載入規範，原生相容 **Antigravity CLI (`agy`)**、**Claude CLI (Claude Code)** 與 **OpenAI Codex**。
 
 ---
 
-### 推薦方式：直接在對話中下 Prompt 讓 AI 幫你安裝
+### 推薦方式：直接在對話中下 Prompt（一鍵自動安裝與啟動）
 
-無論你使用哪一款 AI 工具，只要在對話框中直接貼上下列對應的安裝 Prompt，AI Agent 就會自動幫你下載並配置至正確目錄：
+無論你使用的是哪一款 AI CLI 工具，不需要手動建立資料夾或記指令，直接在對話框輸入這兩句即可：
 
-#### 1. Antigravity CLI (AGY) / Antigravity IDE
-在 Antigravity 對話框中輸入：
+#### 1. 一鍵安裝口令
 ```text
-請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Antigravity Skills 目錄（~/.gemini/config/skills/goutoujunshi）。
+請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝為我的本機 Skill。
 ```
+> AI Agent 會自動識別目前所在的環境（Antigravity、Claude 或 Codex），並將倉庫複製至對應的 Skills 目錄。
 
-#### 2. Claude CLI (Claude Code)
-在 Claude Code 對話框中輸入：
+#### 2. 一鍵啟動口令
 ```text
-請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Claude Skills 目錄（~/.claude/skills/goutoujunshi）。
+請使用狗頭軍師幫我梳理情緒、分析當前關係，並給出下一步建議。
 ```
-
-#### 3. OpenAI Codex
-在 Codex 對話框中輸入：
-```text
-請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的本地 Skill 目錄（~/.codex/skills/goutoujunshi）。
-```
+> （在 Claude Code 中亦可直接輸入 `/goutoujunshi`，或在對話中自然討論戀愛、聊天紀錄與感情問題，AI 會自動按需調用。）
 
 ---
 
-### 備用方式：透過終端機手動安裝與啟動
+### 備用方式：透過終端機手動安裝
 
-#### 1. Antigravity CLI (AGY)
-- **手動安裝**：
-  ```bash
-  # 全域安裝（推薦，本機所有工作區皆可呼叫）
-  mkdir -p ~/.gemini/config/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
+如果你習慣自行管理目錄，也可以透過終端機手動 Clone 至各平台的全域 Skills 目錄：
 
-  # 或專案工作區安裝（僅特定專案生效）
-  mkdir -p .agents/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git .agents/skills/goutoujunshi
-  ```
-- **啟動方式**：Antigravity 會依對話語境自動辨識載入，亦可直接開口呼叫：
-  ```text
-  請使用狗頭軍師幫我梳理情緒、分析當前關係，並給出下一步建議。
-  ```
+```bash
+# Antigravity CLI (AGY)
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
 
-#### 2. Claude CLI (Claude Code)
-- **手動安裝**：
-  ```bash
-  # 全域安裝（推薦）
-  mkdir -p ~/.claude/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
+# Claude CLI (Claude Code)
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
 
-  # 或專案工作區安裝
-  mkdir -p .claude/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git .claude/skills/goutoujunshi
-  ```
-- **啟動方式**：可直接在 Claude Code 輸入斜線指令 `/goutoujunshi`，或直接在對話中呼叫：
-  ```text
-  請扮演狗頭軍師，幫我梳理情緒、分析當前關係，並給出下一步建議。
-  ```
-
-#### 3. OpenAI Codex
-- **手動安裝**：
-  ```bash
-  mkdir -p ~/.codex/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
-  ```
-- **啟動方式**：在對話中輸入包含預設口令的提示詞：
-  ```text
-  使用 $goutoujunshi 幫我梳理情緒、分析當前關係，並給出下一步建議。
-  ```
+# OpenAI Codex
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
+```
 
 ---
 

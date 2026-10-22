@@ -83,80 +83,44 @@ The knowledge base draws on **135 references** spanning relationship science, ps
 
 <p align="center"><sub>Click the image to view it at full size.</sub></p>
 
-## Installation & Setup (Antigravity / Claude Code / Codex)
+## Installation & Usage (Antigravity / Claude Code / Codex)
 
-Goutoujunshi follows the standard Progressive Disclosure Skill specification and natively supports **Antigravity CLI (`agy`)**, **Claude CLI (Claude Code)**, and **OpenAI Codex**. It supports prompt-based automated installation (recommended) and manual terminal setup.
-
----
-
-### Recommended Method: Prompt-Based Automated Installation
-
-No matter which AI agent tool you use, simply copy and paste the corresponding installation prompt into your conversation, and the agent will automatically clone and configure the skill in the right directory:
-
-#### 1. Antigravity CLI (AGY) / Antigravity IDE
-In your Antigravity chat:
-```text
-Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Antigravity Skills directory (~/.gemini/config/skills/goutoujunshi).
-```
-
-#### 2. Claude CLI (Claude Code)
-In your Claude Code chat:
-```text
-Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Claude Skills directory (~/.claude/skills/goutoujunshi).
-```
-
-#### 3. OpenAI Codex
-In your Codex chat:
-```text
-Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my local Skills directory (~/.codex/skills/goutoujunshi).
-```
+Goutoujunshi follows the standard Progressive Disclosure Skill specification and natively supports **Antigravity CLI (`agy`)**, **Claude CLI (Claude Code)**, and **OpenAI Codex**.
 
 ---
 
-### Alternative Method: Manual Terminal Setup & Invocation
+### Recommended Method: Prompt-Based Automated Installation & Launch
 
-#### 1. Antigravity CLI (AGY)
-- **Manual Installation**:
-  ```bash
-  # Global Installation (Recommended, available across all projects)
-  mkdir -p ~/.gemini/config/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
+No matter which AI CLI tool you use, you don't need to manually create directories or run git commands. Simply send these two prompts in your conversation:
 
-  # Or Project-Specific Installation
-  mkdir -p .agents/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git .agents/skills/goutoujunshi
-  ```
-- **Invocation**: Antigravity automatically detects and activates the skill based on conversation context, or you can invoke directly:
-  ```text
-  Use Goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
-  ```
+#### 1. One-Click Installation Prompt
+```text
+Please download the public repository https://github.com/shiangogo/goutoujunshi and install it as a local Skill.
+```
+> The AI Agent will automatically detect its runtime environment (Antigravity, Claude, or Codex) and clone the repository into the appropriate Skills directory.
 
-#### 2. Claude CLI (Claude Code)
-- **Manual Installation**:
-  ```bash
-  # Global Installation (Recommended)
-  mkdir -p ~/.claude/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
+#### 2. One-Click Launch Prompt
+```text
+Use Goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
+```
+> (In Claude Code, you can also type `/goutoujunshi`, or simply bring up relationship questions in natural conversation—the AI will load the skill on demand.)
 
-  # Or Project-Specific Installation
-  mkdir -p .claude/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git .claude/skills/goutoujunshi
-  ```
-- **Invocation**: Type the slash command `/goutoujunshi` or directly prompt Claude to act as Goutoujunshi:
-  ```text
-  Please act as Goutoujunshi to help analyze this chat transcript and provide reply recommendations.
-  ```
+---
 
-#### 3. OpenAI Codex
-- **Manual Installation**:
-  ```bash
-  mkdir -p ~/.codex/skills
-  git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
-  ```
-- **Invocation**: Use the default prompt trigger:
-  ```text
-  Use $goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
-  ```
+### Alternative Method: Manual Terminal Setup
+
+If you prefer managing directories manually, you can clone the repository directly into your platform's global Skills folder:
+
+```bash
+# Antigravity CLI (AGY)
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
+
+# Claude CLI (Claude Code)
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.claude/skills/goutoujunshi
+
+# OpenAI Codex
+git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
+```
 
 ---
 

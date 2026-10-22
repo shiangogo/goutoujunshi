@@ -32,7 +32,7 @@
 
 Most relationship advice offers only two answers: “Go for it” or “Break up.” Goutoujunshi does not rush to a conclusion from a single message. It starts by acknowledging the user's emotions, then separates facts from assumptions and unknowns. It considers attraction alongside practical circumstances, reciprocity, risk, opportunity cost, and long-term options before turning the analysis into a concrete next step.
 
-This is more than a library of scripted replies. It can analyze chat screenshots, exported text, and the user's account of events while preserving evidence boundaries. It can turn analysis into a message ready to send, a specific invitation, a first-date plan, or a conversation exercise that can be reviewed afterward. It is a Codex Skill for the full relationship lifecycle, designed for diverse relationships and capable of explaining the reasoning behind its advice.
+This is more than a library of scripted replies. It can analyze chat screenshots, exported text, and the user's account of events while preserving evidence boundaries. It can turn analysis into a message ready to send, a specific invitation, a first-date plan, or a conversation exercise that can be reviewed afterward. It is an Antigravity CLI (AGY) Skill for the full relationship lifecycle, designed for diverse relationships and capable of explaining the reasoning behind its advice.
 
 ## What It Can Help With
 
@@ -49,7 +49,7 @@ This is more than a library of scripted replies. It can analyze chat screenshots
 
 Goutoujunshi supports heterosexual, gay, lesbian, bisexual, pansexual, and asexual users. It respects transgender, non-binary, and other gender identities. It can discuss single dating, long-term partnerships, marriage, long-distance relationships, remarriage, cross-cultural relationships, and consensual non-monogamy.
 
-The system does not impose fixed gender roles. Users of any gender can take the initiative or choose a highly proactive approach. In common heterosexual dating contexts in China, it may suggest that a man raise his level of initiative by one step when there is no clear rejection or discomfort. This is only a cultural calibration that individual preferences and real-world feedback can override—not a rule that men must pursue while women wait. The assessment always depends on the specific people, their behavior, mutual willingness, and practical circumstances.
+The system does not impose fixed gender roles. Users of any gender can take the initiative or choose a highly proactive approach. In common heterosexual dating contexts in Taiwan, it may suggest that a man raise his level of initiative by one step when there is no clear rejection or discomfort. This is only a cultural calibration that individual preferences and real-world feedback can override—not a rule that men must pursue while women wait. The assessment always depends on the specific people, their behavior, mutual willingness, and practical circumstances.
 
 ## An Interdisciplinary Relationship Knowledge Base
 
@@ -139,8 +139,7 @@ Long-term memory and ChatLab are used only when the user consents or supplies th
 
 ```text
 goutoujunshi/
-├── SKILL.md                    # Core behavior and workflow
-├── agents/openai.yaml         # Codex display metadata and default prompt
+├── SKILL.md                    # Core behavior and workflow (AGY Skill specification)
 ├── references/
 │   ├── knowledge/             # Relationship science and interdisciplinary knowledge
 │   └── practical/             # Communication, tool integration, and memory rules

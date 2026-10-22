@@ -139,7 +139,7 @@ def require_enabled(conn: sqlite3.Connection) -> None:
     if get_setting(conn, "consent_enabled") != "true":
         raise MemoryErrorWithCode("CONSENT_REQUIRED", "長期記憶尚未獲得使用者同意")
     if get_setting(conn, "paused") == "true":
-        raise MemoryErrorWithCode("MEMORY_PAUSED", "長期記憶當前已暫停")
+        raise MemoryErrorWithCode("MEMORY_PAUSED", "長期記憶目前已暫停")
 
 
 def row_dict(row: sqlite3.Row) -> dict[str, Any]:
@@ -155,15 +155,15 @@ def validate_text(name: str, value: Any, maximum: int, required: bool = True) ->
     if required and not value:
         raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 不能為空")
     if len(value) > maximum:
-        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 超過 {maximum} 字符")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 超過 {maximum} 字元")
     if any(ord(char) < 32 and char not in "\t\n" for char in value):
-        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 包含控制字符")
+        raise MemoryErrorWithCode("INVALID_DELTA", f"{name} 包含控制字元")
     return value
 
 
 def validate_delta(raw: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(raw, dict):
-        raise MemoryErrorWithCode("INVALID_DELTA", "記憶變更必須是 JSON 對象")
+        raise MemoryErrorWithCode("INVALID_DELTA", "記憶變更必須是 JSON 物件")
     scope = validate_text("scope", raw.get("scope"), 32)
     if scope not in SCOPES:
         raise MemoryErrorWithCode("INVALID_DELTA", f"不支援的 scope: {scope}")
@@ -198,11 +198,11 @@ def validate_delta(raw: dict[str, Any]) -> dict[str, Any]:
         "hypothesis",
     }:
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "外部工具和模型推斷只能寫入事件或假設"
+            "SOURCE_NOT_ELIGIBLE", "外部工具與模型推斷只能寫入事件或假設"
         )
     if source_type == "assistant_inference" and scope != "hypothesis":
         raise MemoryErrorWithCode(
-            "SOURCE_NOT_ELIGIBLE", "模型推斷只能寫入帶置信度的假設"
+            "SOURCE_NOT_ELIGIBLE", "模型推斷只能寫入具備信賴度的假設"
         )
     return {
         "scope": scope,
@@ -264,7 +264,7 @@ def prune_rows(conn: sqlite3.Connection, delta: dict[str, Any]) -> list[dict[str
                 conn.execute("DELETE FROM memories WHERE id = ?", (row["id"],))
     if conn.execute("SELECT COUNT(*) AS n FROM memories").fetchone()["n"] > MAX_ROWS:
         raise MemoryErrorWithCode(
-            "MEMORY_LIMIT_REACHED", "長期記憶已達上限，請先歸檔或刪除舊對象"
+            "MEMORY_LIMIT_REACHED", "長期記憶已達上限，請先封存或刪除舊對象"
         )
     return removed
 

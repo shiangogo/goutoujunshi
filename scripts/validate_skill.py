@@ -64,10 +64,16 @@ def validate_frontmatter() -> None:
     description_match = re.search(r"^description:\s*(.+)$", frontmatter, re.MULTILINE)
     name = name_match.group(1).strip() if name_match else ""
     description = description_match.group(1).strip() if description_match else ""
+    if (description.startswith('"') and description.endswith('"')) or (
+        description.startswith("'") and description.endswith("'")
+    ):
+        description = description[1:-1].strip()
     if name != "goutoujunshi" or not re.fullmatch(r"[a-z0-9-]{1,64}", name):
         ERRORS.append(f"invalid skill name: {name!r}")
     if not description or len(description) > 1024 or "<" in description or ">" in description:
         ERRORS.append("description is empty, too long, or contains angle brackets")
+    if not re.search(r"[\u4e00-\u9fff]", description):
+        ERRORS.append("description must contain Traditional Chinese text")
 
 
 def approximate_token_count(content: str) -> int:
@@ -101,7 +107,6 @@ def validate_skill_budget() -> None:
 
 
 def validate_inventory(runtime_only: bool) -> None:
-    require("agents/openai.yaml")
     require("scripts/memory_store.py")
     if not runtime_only:
         require("README.md")
@@ -110,9 +115,6 @@ def validate_inventory(runtime_only: bool) -> None:
         require(f"references/knowledge/{filename}")
     for filename in REQUIRED_PRACTICAL:
         require(f"references/practical/{filename}")
-    agent = ROOT / "agents/openai.yaml"
-    if agent.is_file() and "$goutoujunshi" not in agent.read_text(encoding="utf-8"):
-        ERRORS.append("agents/openai.yaml default prompt must mention $goutoujunshi")
 
 
 def validate_routes_and_regressions(runtime_only: bool) -> None:
@@ -171,7 +173,6 @@ def validate_runtime_boundaries() -> None:
 
     runtime_roots = (
         ROOT / "SKILL.md",
-        ROOT / "agents",
         ROOT / "references",
         ROOT / "scripts",
         ROOT / "assets",
@@ -196,10 +197,12 @@ def validate_runtime_boundaries() -> None:
 def validate_markdown_links() -> None:
     link_pattern = re.compile(r"\]\(([^)]+)\)")
     for markdown in ROOT.rglob("*.md"):
-        if ".agents" in markdown.parts:
+        if ".git" in markdown.parts or ".agents" in markdown.parts:
             continue
         text = markdown.read_text(encoding="utf-8")
-        for raw_target in link_pattern.findall(text):
+        stripped = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+        stripped = re.sub(r"`.*?`", "", stripped)
+        for raw_target in link_pattern.findall(stripped):
             target = raw_target.strip().split("#", 1)[0]
             if not target or re.match(r"^(?:https?://|mailto:)", target):
                 continue

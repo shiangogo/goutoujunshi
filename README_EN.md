@@ -85,17 +85,40 @@ The knowledge base draws on **135 references** spanning relationship science, ps
 
 ## Installation & Setup (Antigravity / Claude Code / Codex)
 
-Goutoujunshi follows the standard Progressive Disclosure Skill specification and natively supports **Antigravity CLI (`agy`)**, **Claude CLI (Claude Code)**, and **OpenAI Codex**.
+Goutoujunshi follows the standard Progressive Disclosure Skill specification and natively supports **Antigravity CLI (`agy`)**, **Claude CLI (Claude Code)**, and **OpenAI Codex**. It supports prompt-based automated installation (recommended) and manual terminal setup.
 
-### 1. Antigravity CLI (AGY) / Antigravity IDE
+---
 
-- **Option A: Direct Prompt (Recommended)**:
-  ```text
-  Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Antigravity Skills directory (~/.gemini/config/skills/goutoujunshi).
-  ```
-- **Option B: Terminal Installation**:
+### Recommended Method: Prompt-Based Automated Installation
+
+No matter which AI agent tool you use, simply copy and paste the corresponding installation prompt into your conversation, and the agent will automatically clone and configure the skill in the right directory:
+
+#### 1. Antigravity CLI (AGY) / Antigravity IDE
+In your Antigravity chat:
+```text
+Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Antigravity Skills directory (~/.gemini/config/skills/goutoujunshi).
+```
+
+#### 2. Claude CLI (Claude Code)
+In your Claude Code chat:
+```text
+Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my Claude Skills directory (~/.claude/skills/goutoujunshi).
+```
+
+#### 3. OpenAI Codex
+In your Codex chat:
+```text
+Please download the public repository https://github.com/shiangogo/goutoujunshi and install it into my local Skills directory (~/.codex/skills/goutoujunshi).
+```
+
+---
+
+### Alternative Method: Manual Terminal Setup & Invocation
+
+#### 1. Antigravity CLI (AGY)
+- **Manual Installation**:
   ```bash
-  # Global Installation (Recommended, available in all projects)
+  # Global Installation (Recommended, available across all projects)
   mkdir -p ~/.gemini/config/skills
   git clone https://github.com/shiangogo/goutoujunshi.git ~/.gemini/config/skills/goutoujunshi
 
@@ -108,11 +131,8 @@ Goutoujunshi follows the standard Progressive Disclosure Skill specification and
   Use Goutoujunshi to help me process my emotions, assess my current relationship, and decide what to do next.
   ```
 
----
-
-### 2. Claude CLI (Claude Code)
-
-- **Terminal Installation**:
+#### 2. Claude CLI (Claude Code)
+- **Manual Installation**:
   ```bash
   # Global Installation (Recommended)
   mkdir -p ~/.claude/skills
@@ -127,11 +147,8 @@ Goutoujunshi follows the standard Progressive Disclosure Skill specification and
   Please act as Goutoujunshi to help analyze this chat transcript and provide reply recommendations.
   ```
 
----
-
-### 3. OpenAI Codex
-
-- **Terminal Installation**:
+#### 3. OpenAI Codex
+- **Manual Installation**:
   ```bash
   mkdir -p ~/.codex/skills
   git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi

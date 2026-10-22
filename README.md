@@ -85,15 +85,38 @@
 
 ## 安裝與使用指南（支援 Antigravity / Claude Code / Codex）
 
-本專案遵循 Progressive Disclosure 漸進式載入規範，原生相容 **Antigravity CLI (`agy`)**、**Claude CLI (Claude Code)** 與 **OpenAI Codex**，支援全域安裝與專案工作區安裝。
+本專案遵循 Progressive Disclosure 漸進式載入規範，原生相容 **Antigravity CLI (`agy`)**、**Claude CLI (Claude Code)** 與 **OpenAI Codex**，支援對話口令一鍵安裝（推薦）與終端機安裝。
 
-### 1. Antigravity CLI (AGY) / Antigravity IDE
+---
 
-- **方式 A：在 Antigravity 對話框中直接安裝（推薦）**：
-  ```text
-  請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Antigravity Skills 目錄（~/.gemini/config/skills/goutoujunshi）。
-  ```
-- **方式 B：終端機安裝**：
+### 推薦方式：直接在對話中下 Prompt 讓 AI 幫你安裝
+
+無論你使用哪一款 AI 工具，只要在對話框中直接貼上下列對應的安裝 Prompt，AI Agent 就會自動幫你下載並配置至正確目錄：
+
+#### 1. Antigravity CLI (AGY) / Antigravity IDE
+在 Antigravity 對話框中輸入：
+```text
+請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Antigravity Skills 目錄（~/.gemini/config/skills/goutoujunshi）。
+```
+
+#### 2. Claude CLI (Claude Code)
+在 Claude Code 對話框中輸入：
+```text
+請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的 Claude Skills 目錄（~/.claude/skills/goutoujunshi）。
+```
+
+#### 3. OpenAI Codex
+在 Codex 對話框中輸入：
+```text
+請將公開倉庫 https://github.com/shiangogo/goutoujunshi 下載並安裝到我的本地 Skill 目錄（~/.codex/skills/goutoujunshi）。
+```
+
+---
+
+### 備用方式：透過終端機手動安裝與啟動
+
+#### 1. Antigravity CLI (AGY)
+- **手動安裝**：
   ```bash
   # 全域安裝（推薦，本機所有工作區皆可呼叫）
   mkdir -p ~/.gemini/config/skills
@@ -108,11 +131,8 @@
   請使用狗頭軍師幫我梳理情緒、分析當前關係，並給出下一步建議。
   ```
 
----
-
-### 2. Claude CLI (Claude Code)
-
-- **終端機安裝**：
+#### 2. Claude CLI (Claude Code)
+- **手動安裝**：
   ```bash
   # 全域安裝（推薦）
   mkdir -p ~/.claude/skills
@@ -127,11 +147,8 @@
   請扮演狗頭軍師，幫我梳理情緒、分析當前關係，並給出下一步建議。
   ```
 
----
-
-### 3. OpenAI Codex
-
-- **終端機安裝**：
+#### 3. OpenAI Codex
+- **手動安裝**：
   ```bash
   mkdir -p ~/.codex/skills
   git clone https://github.com/shiangogo/goutoujunshi.git ~/.codex/skills/goutoujunshi
